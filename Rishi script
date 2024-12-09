@@ -1,0 +1,72 @@
+## Project:  STA 215, Fall 2024, Final Project
+# Located:   Kline TCNJ Google Drive
+# File Name: template
+# Who:       Zachary D. Kline
+
+## Load packages
+# NOTE: Run base.R if these commands return an error!
+library(readr)
+library(dplyr)
+library(haven)
+
+# Load data 
+library(readr)
+dataset <- read_csv("final.csv")
+View(dataset)
+
+##################################################################################
+############### Table 1: descriptive statistics    ####################   
+##################################################################################
+mean(dataset$album_sales)
+sd(dataset$album_sales)
+table(dataset$country)
+
+mean(dataset$album_sales)
+sd(dataset$album_sales)
+mean(dataset$units sold of single)
+sd(dataset$units sold of single)
+
+table(dataset$country)
+table(dataset$rock)
+
+##################################################################################
+#################### Figure 1: boxplot             ####################   
+##################################################################################
+boxplot(album_sales ~ country, data = dataset)
+
+anova <- aov( album_sales~ country, data = dataset)
+summary(anova) 
+
+##################################################################################
+####################   Figure 2: scatter plot             ####################   
+##################################################################################
+# Create scatter plot of BPM vs Song_length
+plot(dataset$bpm, dataset$song_length, 
+     xlab = "album sales", ylab = "sold of single (Units)",
+     main = "Scatter Plot: album sales vs number of certified units", pch = 8, col = "blue")
+
+# Fit linear model (regression line)
+model <- lm(number of units sold ~ album sales, data = dataset)
+
+# Add regression line to the plot
+abline(model, col = "red", lwd = 1)
+
+# Show summary of the linear model
+summary(model)
+
+##################################################################################
+####################  Figure 3: residual plot                ####################   
+##################################################################################
+# Plot the residuals
+plot(dataset$album_sales, residuals(model))
+
+# Add a horizontal line at zero to indicate the baseline
+abline(h = 0, col = "red")
+
+
+##################################################################################
+####################  Table 2: contingency table                ####################   
+##################################################################################
+table(dataset$country, dataset$rock)
+
+chisq.test(table(dataset$country, dataset$rock))
